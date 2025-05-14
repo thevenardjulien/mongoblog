@@ -1,0 +1,27 @@
+{
+  "name": "mongoblog",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "node --env-file=.env.development index.js",
+    "dev:watch": "nodemon --exec \"node --env-file=.env.development\" index.js",
+    "test": "node --env-file=.env.test index.js",
+    "start": "node --env-file=.env.production index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "ejs": "^3.1.10",
+    "express": "^5.1.0",
+    "mongoose": "^8.14.3"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.26.0",
+    "eslint": "^9.26.0",
+    "globals": "^16.1.0",
+    "prettier": "3.5.3"
+  }
+}
