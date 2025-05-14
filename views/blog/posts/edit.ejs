@@ -1,0 +1,54 @@
+<%- include('../../layouts/header') %>
+
+<main class="mb-4">
+  <div class="container px-4 px-lg-5">
+    <% if (post) { %>
+      <h2 class="mb-4">Modifier le post</h2>
+      <form action="/blog/posts/<%= post.slug %>/update" method="POST">
+        <!-- Title -->
+        <div class="form-group mb-3">
+          <label for="title">Titre <span class="text-danger">*</span></label>
+          <input
+            type="text"
+            class="form-control"
+            id="title"
+            name="title"
+            required
+            maxlength="255"
+            value="<%= post.title %>"
+          >
+        </div>
+        <!-- Subtitle -->
+        <div class="form-group mb-3">
+          <label for="subtitle">Sous-titre</label>
+          <input
+            type="text"
+            class="form-control"
+            id="subtitle"
+            name="subtitle"
+            maxlength="255"
+            value="<%= post.subtitle || '' %>"
+          >
+        </div>
+        <!-- Content -->
+        <div class="form-group mb-3">
+          <label for="content">Contenu <span class="text-danger">*</span></label>
+          <textarea
+            class="form-control"
+            id="content"
+            name="content"
+            rows="8"
+            required
+          ><%= post.content %></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Enregistrer les modifications</button>
+        <a href="/blog/posts/<%= post._id %>" class="btn btn-outline-secondary ms-2">Annuler</a>
+      </form>
+    <% } else { %>
+      <div class="alert alert-warning">Ce post n'existe pas ou a été supprimé.</div>
+      <a href="/blog/posts" class="btn btn-outline-secondary">← Retour à la liste</a>
+    <% } %>
+  </div>
+</main>
+
+<%- include('../../layouts/footer') %>

@@ -1,0 +1,29 @@
+<%- include('../../layouts/header') %>
+
+<main class="mb-4">
+  <div class="container px-4 px-lg-5">
+    <% if (post) { %>
+      <article class="mb-5">
+        <h1 class="mb-3"><%= post.title %></h1>
+        <% if (post.subtitle) { %>
+          <h4 class="text-muted mb-4"><%= post.subtitle %></h4>
+        <% } %>
+        <div class="mb-2 text-secondary">
+          <span>Par <strong><%= post.author %></strong></span>
+          &nbsp;|&nbsp;
+          <span><%= new Date(post.date).toLocaleDateString('fr-FR', { day: '2-digit', month: 'long', year: 'numeric' }) %></span>
+        </div>
+        <hr>
+        <div class="mt-4" style="white-space: pre-line;">
+          <%= post.content %>
+        </div>
+      </article>
+      <a href="/blog/posts" class="btn btn-outline-secondary">← Retour à la liste</a>
+    <% } else { %>
+      <div class="alert alert-warning">Ce post n'existe pas ou a été supprimé.</div>
+      <a href="/blog/posts" class="btn btn-outline-secondary">← Retour à la liste</a>
+    <% } %>
+  </div>
+</main>
+
+<%- include('../../layouts/footer') %>

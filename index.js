@@ -6,9 +6,11 @@ import process from "process";
 import { createAdminUser } from "./utils/createAdminUser.js";
 import session from "express-session";
 import MongoStore from "connect-mongo";
+import { Post } from "./models/PostSchema.js";
 
 // Import des routeurs
 import { authRoutes } from "./routes/authRoutes.js";
+import { postRoutes } from "./routes/postRoutes.js";
 
 main()
   .then(() => console.log("Connected to MongoDB database : mongoblog"))
@@ -73,15 +75,18 @@ app.use(
   }),
 );
 
+// Variables locals ( Partagées avec toutes les res., et par extension toutes les vues )
 app.use((req, res, next) => {
   res.locals.user = req.session.user || null;
   next();
 });
 
 // Routes
-app.get("/", (req, res) => {
+app.get("/", async (req, res) => {
+  const posts = await Post.find({}).sort({ date: -1 });
   res.render("index", {
     title: "mongoblog : homepage",
+    posts,
   });
 });
 
@@ -98,6 +103,7 @@ app.get("/post", (req, res) => {
 });
 
 app.use("/auth", authRoutes);
+app.use("/blog/posts/", postRoutes);
 
 // Gestion des erreurs
 app.use((req, res) => {

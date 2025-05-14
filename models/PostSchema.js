@@ -1,10 +1,20 @@
 import mongoose from "mongoose";
 
 const Schema = mongoose.Schema;
-const blogPostSchema = new Schema({
+const PostSchema = new Schema({
   title: {
     type: String,
     required: true,
+    trim: true,
+  },
+  slug: {
+    type: String,
+    required: true,
+    trim: true,
+  },
+  subtitle: {
+    type: String,
+    required: false,
     trim: true,
   },
   content: {
@@ -25,4 +35,4 @@ const blogPostSchema = new Schema({
   },
 });
 
-export const BlogPost = mongoose.model("BlogPost", blogPostSchema);
+export const Post = mongoose.model("Post", PostSchema);

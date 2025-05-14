@@ -1,0 +1,56 @@
+<%- include('../../layouts/header') %>
+
+<!-- Main Content-->
+<main class="mb-4">
+  <div class="container px-4 px-lg-5">
+    <div class="row justify-content-center">
+      <div class="col-md-10 col-lg-8 col-xl-7">
+        <h2 class="mb-4">Créer un nouveau post</h2>
+        <form action="/blog/posts/create" method="POST">
+          <!-- Title -->
+          <div class="form-group mb-3">
+            <label for="title">Titre <span class="text-danger">*</span></label>
+            <input
+              type="text"
+              class="form-control"
+              id="title"
+              name="title"
+              required
+              maxlength="255"
+              placeholder="Titre du post"
+            />
+          </div>
+          <!-- Subtitle -->
+          <div class="form-group mb-3">
+            <label for="subtitle">Sous-titre</label>
+            <input
+              type="text"
+              class="form-control"
+              id="subtitle"
+              name="subtitle"
+              maxlength="255"
+              placeholder="Sous-titre (optionnel)"
+            />
+          </div>
+          <!-- Content -->
+          <div class="form-group mb-3">
+            <label for="content"
+              >Contenu <span class="text-danger">*</span></label
+            >
+            <textarea
+              class="form-control"
+              id="content"
+              name="content"
+              rows="8"
+              required
+              placeholder="Écris ton article ici..."
+            ></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary">Publier</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</main>
+
+<%- include('../../layouts/footer') %>
