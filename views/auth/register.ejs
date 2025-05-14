@@ -1,0 +1,58 @@
+<%- include('../layouts/header') %>
+
+<div class="container px-4 px-lg-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6 col-lg-5">
+      <div class="card my-5 shadow">
+        <div class="card-body">
+          <h3 class="card-title text-center mb-4">Créer un compte</h3>
+          <% if (typeof error !== 'undefined') { %>
+            <div class="alert alert-danger"><%= error %></div>
+          <% } %>
+          <form action="/auth/register" method="POST">
+            <div class="form-group mb-3">
+              <label for="name">Nom</label>
+              <input
+                type="text"
+                class="form-control"
+                id="name"
+                name="name"
+                placeholder="Votre nom"
+                required
+              />
+            </div>
+            <div class="form-group mb-3">
+              <label for="email">Adresse email</label>
+              <input
+                type="email"
+                class="form-control"
+                id="email"
+                name="email"
+                placeholder="Votre email"
+                required
+              />
+            </div>
+            <div class="form-group mb-4">
+              <label for="password">Mot de passe</label>
+              <input
+                type="password"
+                class="form-control"
+                id="password"
+                name="password"
+                placeholder="Mot de passe"
+                required
+              />
+            </div>
+            <button type="submit" class="btn btn-primary w-100">S'inscrire</button>
+          </form>
+          <div class="mt-3 text-center">
+            <span>Déjà un compte ? <a href="/auth/login">Se connecter</a></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('../layouts/footer') %>
+

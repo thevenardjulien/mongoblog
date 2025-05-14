@@ -3,16 +3,21 @@ import express from "express";
 import { dirname, sep } from "path";
 import { fileURLToPath } from "url";
 import process from "process";
+import { createAdminUser } from "./utils/createAdminUser.js";
+import session from "express-session";
+import MongoStore from "connect-mongo";
 
 // Import des routeurs
+import { authRoutes } from "./routes/authRoutes.js";
 
 main()
   .then(() => console.log("Connected to MongoDB database : mongoblog"))
+  .then(() => createAdminUser())
   .catch((err) => console.log(err));
 
 async function main() {
-  const url = "mongodb://localhost:27017/";
-  const dbName = "mongoblog";
+  const url = process.env.DB_URL || "mongodb://localhost:27017/";
+  const dbName = process.env.DB_NAME || "mongoblog";
   await mongoose.connect(`${url}${dbName}`);
 }
 
@@ -46,10 +51,53 @@ app.use((req, res, next) => {
 app.set("view engine", "ejs");
 app.set("views", cfg.dir.views);
 
-// Routes
-app.use("/", (req, res) => {
-  res.render("index", { title: "mongoblog : homepage" });
+// Setup sessions
+const store = MongoStore.create({
+  mongoUrl: "mongodb://localhost:27017/mongoblog",
 });
+
+store.on("error", function (error) {
+  console.error("Session store error:", error);
+});
+
+app.use(
+  session({
+    secret: process.env.JWT_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    store,
+    cookie: {
+      secure: false,
+      maxAge: 24 * 60 * 60 * 1000,
+    },
+  }),
+);
+
+app.use((req, res, next) => {
+  res.locals.user = req.session.user || null;
+  next();
+});
+
+// Routes
+app.get("/", (req, res) => {
+  res.render("index", {
+    title: "mongoblog : homepage",
+  });
+});
+
+app.get("/about", (req, res) => {
+  res.render("about", { title: "mongoblog : about" });
+});
+
+app.get("/contact", (req, res) => {
+  res.render("contact", { title: "mongoblog : contact" });
+});
+
+app.get("/post", (req, res) => {
+  res.render("post", { title: "mongoblog : post" });
+});
+
+app.use("/auth", authRoutes);
 
 // Gestion des erreurs
 app.use((req, res) => {
